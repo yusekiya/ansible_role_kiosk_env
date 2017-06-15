@@ -12,7 +12,7 @@
     option: autologin-user
     value: '{{kiosk_env_user}}'
     no_extra_spaces: yes
-  when: '{{stat_lightdm_conf.stat.exists}} and {{kiosk_env_autologin_enabled}}'
+  when: stat_lightdm_conf.stat.exists and kiosk_env_autologin_enabled
   tags:
     - autologin
     - need_root
@@ -26,7 +26,7 @@
     option: autologin-user-timeout
     value: 0
     no_extra_spaces: yes
-  when: '{{stat_lightdm_conf.stat.exists}} and {{kiosk_env_autologin_enabled}}'
+  when: stat_lightdm_conf.stat.exists and kiosk_env_autologin_enabled
   tags:
     - autologin
     - need_root
@@ -40,7 +40,7 @@
     option: ExecStart
     value: '-/sbin/agetty --autologin {{kiosk_env_user}} --noclear %I $TERM'
     no_extra_spaces: yes
-  when: '{{kiosk_env_autologin_enabled}}'
+  when: kiosk_env_autologin_enabled
   tags:
     - autologin
     - need_root
@@ -54,7 +54,7 @@
     option: xserver-command
     value: 'X -nocursor'
     no_extra_spaces: yes
-  when: '{{stat_lightdm_conf.stat.exists}} and {{not kiosk_env_cursor_enabled}}'
+  when: stat_lightdm_conf.stat.exists and not kiosk_env_cursor_enabled
   tags:
     - cursor
     - need_root
@@ -68,7 +68,7 @@
     option: xserver-command
     value: 'X'
     no_extra_spaces: yes
-  when: '{{stat_lightdm_conf.stat.exists}} and {{kiosk_env_cursor_enabled}}'
+  when: stat_lightdm_conf.stat.exists and kiosk_env_cursor_enabled
   tags:
     - cursor
     - need_root
@@ -84,7 +84,7 @@
     dest: '~/.config/lxpanel/LXDE-pi/panels/panel'
     regexp: 'autohide[ ]*='
     line: 'autohide=1'
-  when: '{{stat_LXDE_panel.stat.exists}} and {{kiosk_env_autohide_enabled}}'
+  when: stat_LXDE_panel.stat.exists and kiosk_env_autohide_enabled
   tags:
     - lxde_panel
 
@@ -93,7 +93,7 @@
     dest: '~/.config/lxpanel/LXDE-pi/panels/panel'
     regexp: 'autohide[ ]*='
     line: 'autohide=0'
-  when: '{{stat_LXDE_panel.stat.exists}} and not {{kiosk_env_autohide_enabled}}'
+  when: stat_LXDE_panel.stat.exists and not kiosk_env_autohide_enabled
   tags:
     - lxde_panel
   
@@ -102,7 +102,7 @@
     dest: '~/.config/lxpanel/LXDE-pi/panels/panel'
     regexp: 'heightwhenhidden[ ]*='
     line: 'heightwhenhidden={{kiosk_env_autohide_panel_height}}'
-  when: '{{stat_LXDE_panel.stat.exists}} and {{kiosk_env_autohide_enabled}}'
+  when: stat_LXDE_panel.stat.exists and kiosk_env_autohide_enabled
   tags:
     - lxde_panel
 
@@ -158,7 +158,7 @@
     name: MAILTO
     state: absent
     user: '{{kiosk_env_user}}'
-  when: '{{kiosk_env_cron_mail_enabled}}'
+  when: kiosk_env_cron_mail_enabled
   tags:
     - screensaver
     - cron
@@ -169,7 +169,7 @@
     name: MAILTO
     value: ''
     user: '{{kiosk_env_user}}'
-  when: '{{not kiosk_env_cron_mail_enabled}}'
+  when: not kiosk_env_cron_mail_enabled
   tags:
     - screensaver
     - cron
@@ -181,7 +181,7 @@
     minute: '{{kiosk_env_xscreensaver_activate_time.minute}}'
     hour: '{{kiosk_env_xscreensaver_activate_time.hour}}'
     job: 'DISPLAY=:0 /usr/bin/xscreensaver-command -activate'
-  when: '{{kiosk_env_xscreensaver_cron_enabled}}'
+  when: kiosk_env_xscreensaver_cron_enabled
   tags:
     - screensaver
     - cron
@@ -193,7 +193,7 @@
     minute: '{{kiosk_env_xscreensaver_deactivate_time.minute}}'
     hour: '{{kiosk_env_xscreensaver_deactivate_time.hour}}'
     job: 'DISPLAY=:0 /usr/bin/xscreensaver-command -deactivate'
-  when: '{{kiosk_env_xscreensaver_cron_enabled}}'
+  when: kiosk_env_xscreensaver_cron_enabled
   tags:
     - screensaver
     - cron
@@ -203,7 +203,7 @@
     name: 'Activate xscreensaver'
     user: '{{kiosk_env_user}}'
     state: absent
-  when: '{{not kiosk_env_xscreensaver_cron_enabled}}'
+  when: not kiosk_env_xscreensaver_cron_enabled
   tags:
     - screensaver
     - cron
@@ -213,7 +213,7 @@
     name: 'Deactivate xscreensaver'
     user: '{{kiosk_env_user}}'
     state: absent
-  when: '{{not kiosk_env_xscreensaver_cron_enabled}}'
+  when: not kiosk_env_xscreensaver_cron_enabled
   tags:
     - screensaver
     - cron
