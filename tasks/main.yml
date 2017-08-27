@@ -1,5 +1,7 @@
 ---
 - name: Check existence of lightdm.conf
+  become: yes
+  become_user: root
   stat: path='/etc/lightdm/lightdm.conf'
   register: stat_lightdm_conf
 
