@@ -76,6 +76,8 @@
     - need_root
 
 - name: Check existence of config file for LXDE panel
+  become: yes
+  become_user: root
   stat: path='~/.config/lxpanel/LXDE-pi/panels/panel'
   register: stat_LXDE_panel
   tags:
@@ -232,6 +234,8 @@
     - need_root
 
 - name: Modify backlight brightness | check if file exists
+  become: yes
+  become_user: root
   stat: path='/sys/class/backlight/rpi_backlight/brightness'
   register: stat_rpi_backlight_brightness
   tags:
